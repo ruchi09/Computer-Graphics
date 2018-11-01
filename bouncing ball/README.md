@@ -1,13 +1,15 @@
 
 
-Reference: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL
+Reference: 
+        Tutorial: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL
+        Code:     https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js
 
 Note: The changes can be found by searching for 'Ruchi Saha'
 
 
 Below lines were modified:
 
-//***************************************************************************************************************************************************************
+//****************************************************************************************************************************
 
 1) line 80
         const texture = new Array(1);
@@ -15,7 +17,7 @@ Below lines were modified:
  
  
  
-//**************************************************************************************************************************************************** 
+//**************************************************************************************************************************
         
 2)  line 107:
         
@@ -89,7 +91,7 @@ Below lines were modified:
           };
         }
 
-//*******************************************************************************************************************************************************
+//***************************************************************************************************************************
 
     3) function drawScene(gl, programInfo, buffers, texture, deltaTime)
         
