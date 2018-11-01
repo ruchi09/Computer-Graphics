@@ -1,11 +1,13 @@
 
 
-Reference: 
-      1) [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL)
+Reference:                                                                                 
+      1) [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL)          
       2) [Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js)
 
-Note: The changes can be found by searching for 'Ruchi Saha' in the js code
 
+
+Note:                                                                                                         
+      1) The changes can be found by searching for 'Ruchi Saha' in the js code. 
 
 Below lines were modified:
 
