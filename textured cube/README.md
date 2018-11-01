@@ -1,17 +1,16 @@
 
+Reference:                                                                                 
+      1) [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL)          
+      2) [Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js)
 
-Reference:
-        tutorial: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL
-        
-        code    : https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js
-        
-        
-Note: The changes can be found by searching for 'Ruchi Saha'
 
+
+Note:                                                                                                         
+      1) The changes can be found by searching for 'Ruchi Saha' in the js code. 
 
 Following lines were modified:
 
-//****************************************************************************************************************************************************
+//***************************************************************************************************************************
 
 1) line 73:
         const texture = new Array(6);
@@ -92,5 +91,5 @@ Following lines were modified:
             const offset = 60;
             gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
           }
-        //-------------------------------------- End of modifications by Ruchi Saha---------------------------------------------------------------
+        //-------------------------------------- End of modifications by Ruchi Saha---------------------------------------
 
