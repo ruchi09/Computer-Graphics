@@ -1,12 +1,16 @@
 
+Reference: 
+      1) [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL)
+      2) [Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js)
 
-Reference: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL
-
-Note: The changes can be found by searching for 'Ruchi Saha'
+Note: The changes can be found by searching for 'Ruchi Saha' in the js code
+      This code took reference from rotating cube and removed that cube for a blank canvas
+      The code contains total 9 rectangles (1 for background, 4 for bottom borders, 2 side borders and 2 top borders)
+      
 
 The lines below are modified:
 
-//************************************************************************************************************************************************
+//***************************************************************************************************************************
 1) line no: 70
 
         const texture = new Array(3);
@@ -18,7 +22,7 @@ The lines below are modified:
         var then = 0;
 
         // Draw the scene repeatedly
-        //----------------------- Changed function render (by Ruchi Saha ,CED15I023)---------------------------------------------------------
+        //------------------ Changed function render (by Ruchi Saha ,CED15I023)----------------------------------------------
         function render(now)
         {
 
@@ -33,7 +37,7 @@ The lines below are modified:
 
 
 
-//***********************************************************************************************************************************************
+//***************************************************************************************************************************
 
 2)   line no: 98
 
@@ -42,7 +46,7 @@ The lines below are modified:
                                         // added and changed texture coordinates
     
     
-//*************************************************************************************************************************************************
+//**************************************************************************************************************************
 
 
 3) Line no: 333
@@ -156,6 +160,6 @@ The lines below are modified:
               }
 
 
-            //------------------------------ end of modifications-----------------------------------------------------------------
+            //------------------- end of modifications-----------------------------------------------------------------
 
-//***********************************************************************************************************************************************
+//****************************************************************************************************************************
