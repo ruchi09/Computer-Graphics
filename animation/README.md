@@ -1,3 +1,3 @@
-* jkdreui;o
+* jkdreui
 * fdnhldslmkl
-      *fdghseor
+     - fdghseor
