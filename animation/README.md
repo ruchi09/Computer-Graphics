@@ -21,7 +21,6 @@ This is a webgl code for a 3 minute animation using basic techniques.
 
 ### Reference: ###    
 
-1. Image texture application [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL)          
-2. Image texture application [Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js)               
-3. Video texture application [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL)  
-4. Video texture application [Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample8/webgl-demo.js)
+1. Image texture application ([Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL),[Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js))
+2. Video texture application ([Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL),[Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample8/webgl-demo.js))
+3) Video used: [this](https://www.youtube.com/watch?v=e-P5IFTqB98) 
