@@ -13,10 +13,10 @@ This is a webgl code for a 3 minute animation using basic techniques.
     * Rotation          
     * Translation    
     * Scaling   
-    * Applying video texture   
-    * Applying image texture       
-    * Changing lookAt  
-    * Changing origin
+    * Applying Video Texture   
+    * Applying Image Texture       
+    * Changing LookAt  
+    * Changing Origin
       
 
 
