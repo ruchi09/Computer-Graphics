@@ -1,12 +1,12 @@
 This is a webgl code for a 3 minute animation using basic techniques.
 
 
-Note:
+Note:                                                                                                                       
       1) The changes in the js code (form reference code) includes (entire files) main.js, bufferdata,js and scene0,js.      
       2) This code is a combination of image textures and video textures refered from the mentioned site.      
-      3) The code contains total 5 cubes (mesh), each having it's own origin and lookAt values    
-      4) Animation for moving cubes is created by varing origin and look_at values for each cube respectively.
-      5) Major animation includes:                                                                 
+      3) The code contains total 5 cubes (mesh), each having it's own origin and lookAt values                                          
+      4) Animation for moving cubes is created by varing origin and look_at values for each cube respectively.                       
+      5) Major animation includes:                                                                                                                             
                   a) Rotation                                                                                      
                   b) Translation                                                                                
                   c) Scaling                                                                                                                                                      
