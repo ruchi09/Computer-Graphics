@@ -1,3 +1,5 @@
+var tr_z=0;
+
 //------------------------------------------------------------------------------------------------------------------
 //                                  SCENE 0, BLACK HOLE
 //------------------------------------------------------------------------------------------------------------------
@@ -15,13 +17,6 @@ function scene0(gl, programInfo, buffers, texture) {
     // Clear the canvas before we start drawing on it.
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    // Create a perspective matrix, a special matrix that is
-    // used to simulate the distortion of perspective in a camera.
-    // Our field of view is 45 degrees, with a width/height
-    // ratio that matches the display size of the canvas
-    // and we only want to see objects between 0.1 units
-    // and 100 units away from the camera.
 
     const fieldOfView = 45 * Math.PI / 180;   // in radians
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;

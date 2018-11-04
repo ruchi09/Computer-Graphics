@@ -30,7 +30,7 @@ function setupVideo(url) {
      timeupdate = true;
      checkReady();
   }, true);
-
+  video.crossOrigin = "anonymous";
   video.src = url;
   //video.poster()
   //video.play();

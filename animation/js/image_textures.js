@@ -39,6 +39,7 @@ function loadImageTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
   };
+  image.crossOrigin = "anonymous";
   image.src = url;
 
   return texture;

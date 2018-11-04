@@ -1,6 +1,6 @@
 
 
-var cubeRotation = new Array(5);
+var cubeRotation = new Array(5);   // rotation for the cubes resp
 cubeRotation[0] =0;
 cubeRotation[1] =0;
 cubeRotation[2]=0;
@@ -10,28 +10,22 @@ cubeRotation[3]=0;
 var cubeScale_x = 1.0;
 var cubeScale_y = 1.0;
 var cubeScale_z = 1.0;
-var t=new Array(5);
+var t=new Array(5); // texture to be applied for the cubes resp
 t[0]=1;
 t[1]=1;
 t[2]=1;
 t[3]=1;
 t[4]=1;
+
 // will set to true when video can be copied to texture
 var copyVideo = false;
-var flag=0;
-
-
-
-
+var flag=0; // for controlling cube animation
 
 var ztranslation =0.0;
 var xtranslation=0.0;
 var ytranslation =0.0;
-var lx =0.0;
-var ly =0.0;
-var lz =0.0;
-var tr_z =0.0;
-var look_at = new Array(5);
+
+var look_at = new Array(5);  // look at for the cubes resp
 
 look_at[0] =[0 ,2,-10];
 look_at[1] =[-3,2,-12];
@@ -39,12 +33,14 @@ look_at[2] =[3 ,2,-12];
 look_at[3] =[-5,2,-14];
 look_at[4] =[5 ,2,-14];
 
-const zoomSpeed =0.4;
-const originSpeed=0.2;
-var part=0;
-var scene=0;
-const per_look_at = new Array(5);
+const zoomSpeed =0.4;  // speed with which translation (actually change in lookAt ) will happen
+const originSpeed=0.2; // speed with which origin will be changed
 
+var part=0;  // part to be executed (cube animation)
+var scene=0; // the scene to be displayed
+
+
+const per_look_at = new Array(5);   // permanent lookat of the cubes (when stationary)
 per_look_at[0] =[0 ,2,-10];
 per_look_at[1] =[-3,2,-12];
 per_look_at[2] =[3 ,2,-12];
@@ -52,8 +48,8 @@ per_look_at[3] =[-5,2,-14];
 per_look_at[4] =[5 ,2,-14];
 
 
-//look_at[0] =[0 ,0,-3];  for screne 1
-const disp_look_at = new Array(5);
+
+const disp_look_at = new Array(5); // display lookat (value when playing video)
 
 disp_look_at[0] =[0,0,-3.5];
 disp_look_at[1] =[0,0,-3.5];
@@ -64,7 +60,7 @@ disp_look_at[4] =[0,0,-3.5];
 
 
 
-var origin = new Array(5);
+var origin = new Array(5); // origins of cubes
 
 origin[0] =[0 ,0,0];
 origin[1] =[-3,0,0];
@@ -73,7 +69,7 @@ origin[3] =[-5,0,-5];
 origin[4] =[5,0,-5];
 
 
-const per_origin = new Array(5);
+const per_origin = new Array(5); // permanent origin of cubes
 
 per_origin[0] =[0 ,0,0];
 per_origin[1] =[-3,0,0];
@@ -169,9 +165,9 @@ function main() {
 
 // scene1 buffers and textures
   const scene1_textures = new Array(2);
-  const scene1_buffers = new Array(2);
+  const scene1_buffers = initBuffers(gl,0 );
   const video = new Array(10);
-  scene1_buffers[0] = initBuffers(gl,0 );
+
   scene1_textures[0] = initVideoTexture(gl);
   scene1_textures[1] = loadImageTexture(gl,"resources/black.jpeg");
 
@@ -222,11 +218,11 @@ function main() {
       }
       background(gl, programInfo, background_buffer, background_texture,[0,0,-50]);
       console.log("part=%d , x=%f, y=%f, zi%f",part,xtranslation,ytranslation,ztranslation);
-      scene1(gl, programInfo, scene1_buffers[0], scene1_textures,video);
-      scene2(gl, programInfo, scene1_buffers[0], scene1_textures,video);
-      scene3(gl, programInfo, scene1_buffers[0], scene1_textures,video);
-      scene4(gl, programInfo, scene1_buffers[0], scene1_textures,video);
-      scene5(gl, programInfo, scene1_buffers[0], scene1_textures,video);
+      cube1(gl, programInfo, scene1_buffers, scene1_textures,video);
+      cube2(gl, programInfo, scene1_buffers, scene1_textures,video);
+      cube3(gl, programInfo, scene1_buffers, scene1_textures,video);
+      cube4(gl, programInfo, scene1_buffers, scene1_textures,video);
+      cube5(gl, programInfo, scene1_buffers, scene1_textures,video);
     }
     else if (scene==2)
       end(gl, programInfo, background_buffer, end_texture,[0,0,50]);
@@ -239,287 +235,10 @@ function main() {
 
 
 
-//
-// Draw the scene.
-//
-function scene1(gl, programInfo, buffers, texture,video)
-{
 
-  const fieldOfView = 45 * Math.PI / 180;   // in radians
-  const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-  const zNear = 0.1;
-  const zFar = 100.0;
-  const projectionMatrix = mat4.create();
-
-  // note: glmatrix.js always has the first argument
-  // as the destination to receive the result.
-  mat4.perspective(projectionMatrix,
-                   fieldOfView,
-                   aspect,
-                   zNear,
-                   zFar);
-
-  const modelViewMatrix = mat4.create();
-
-  mat4.translate(modelViewMatrix,     // destination matrix
-                 modelViewMatrix,     // matrix to translate
-                 [-0.0, 0.0, -10.0]);  // amount to translate
-
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0],     // amount to rotate in radians
-  mat4.lookAt(modelViewMatrix,look_at[0],[0,0,0],[0,1,0]);
-  //             [0, 0, 1]);       // axis to rotate around (Z)
-  mat4.rotate(modelViewMatrix,  // destination matrix
-              modelViewMatrix,  // matrix to rotate
-              cubeRotation[0],// amount to rotate in radians
-              [1, 0, 0]);       // axis to rotate around (X)
-
-  mat4.scale(modelViewMatrix, modelViewMatrix,[ cubeScale_x,cubeScale_y,cubeScale_z]);
-  const normalMatrix = mat4.create();
-  mat4.invert(normalMatrix, modelViewMatrix);
-  mat4.transpose(normalMatrix, normalMatrix);
-
-  // Tell WebGL how to pull out the positions from the position
-  // buffer into the vertexPosition attribute
-  {
-    const numComponents = 3;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.vertexPosition,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
-    gl.enableVertexAttribArray(
-        programInfo.attribLocations.vertexPosition);
-  }
-
-  // Tell WebGL how to pull out the texture coordinates from
-  // the texture coordinate buffer into the textureCoord attribute.
-  {
-    const numComponents = 2;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.textureCoord,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
-    gl.enableVertexAttribArray(
-        programInfo.attribLocations.textureCoord);
-  }
-
-  // Tell WebGL how to pull out the normals from
-  // the normal buffer into the vertexNormal attribute.
-  {
-    const numComponents = 3;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.normal);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.vertexNormal,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
-    gl.enableVertexAttribArray(
-        programInfo.attribLocations.vertexNormal);
-  }
-
-  // Tell WebGL which indices to use to index the vertices
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
-  // Tell WebGL to use our program when drawing
-  gl.useProgram(programInfo.program);
-    // Set the shader uniforms
-  gl.uniformMatrix4fv(
-      programInfo.uniformLocations.projectionMatrix,
-      false,
-      projectionMatrix);
-  gl.uniformMatrix4fv(
-      programInfo.uniformLocations.modelViewMatrix,
-      false,
-      modelViewMatrix);
-  gl.uniformMatrix4fv(
-      programInfo.uniformLocations.normalMatrix,
-      false,
-      normalMatrix);
-
-
-
-
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, texture[0]);
-
-  gl.activeTexture(gl.TEXTURE1);
-  gl.bindTexture(gl.TEXTURE_2D, texture[1]);
-
-
-
-t[0]=1;
-
-if(video[0].ended && part==0)
-{
-  t[0]=1;
-  part=1;
-
-}
-
-
- if(video[9].ended && part ==18)
-   {
-     t[0]=1;
-     part=19;
-   }
-
-
-
- if( part==0)
- {
-   console.log(disp_look_at[0]);
-   console.log(compare(look_at[0],disp_look_at[0],zoomSpeed));
-   if(compare(look_at[0],disp_look_at[0],zoomSpeed))
-   {
-     console.log("hi");
-     if(flag==0)
-     {
-       cubeScale_x+=0.1;
-       if(cubeScale_x>=1.7)
-       flag=1;
-     }
-     else
-     {
-       t[0]=0;
-       video[0].play();
-     }
-   }
-   else
-   look_at[0]=update_coordinates(disp_look_at[0],look_at[0],zoomSpeed);
- }
-
-
-
-
-   else if(part==1)
-   {
-      if(cubeScale_x<=1.0)
-      {
-        if(compare(look_at[0],per_look_at[0],zoomSpeed))
-        {
-          flag=0;
-          cubeScale_x=1;
-
-          part=2;
-        }
-
-        else
-          look_at[0]=update_coordinates(per_look_at[0],look_at[0],zoomSpeed);
-      }
-      else
-      {
-        cubeScale_x-=0.1;
-      }
-
-   }
-
-
-
-
-    else if(part==18)
-    {
-      console.log("ifeskkmnsdokde part 6");
-      if(cubeRotation[0]>=Math.PI/2)
-      {
-
-        console.log("done rotation");
-        if(compare(look_at[0],disp_look_at[0],zoomSpeed))
-        {
-          if(flag==0)
-          {
-            cubeScale_x+=0.1;
-            if(cubeScale_x>=1.7)
-             flag=1;
-          }
-          else
-          {
-            t[0]=0;
-            video[9].play();
-          }
-        }
-        else
-        look_at[0]=update_coordinates(disp_look_at[0],look_at[0],zoomSpeed);
-      }
-      else cubeRotation[0]+=0.07;
-    }
-
-
-
-
-
-   else if(part==19)
-   {
-     console.log("inside 7")
-      if(cubeScale_x<=1.0)
-      {
-        if(compare(look_at[0],per_look_at[0],zoomSpeed))
-        {
-          // t[0]=1;
-          part=20;
-          // scene=2;
-          cubeScale_x=1;
-          cubeScale_y=1;
-          cubeScale_z=1;
-          flag=40;
-        }
-
-        else
-          look_at[0]=update_coordinates(per_look_at[0],look_at[0],zoomSpeed);
-      }
-      else
-      {
-        cubeScale_x-=0.1;
-      }
-
-   }
-
-   else if (part==20)
-   {
-     flag--;
-     if(flag<-10)
-      scene=2;
-
-   }
-
-
-
-  console.log(look_at[0]);
-  console.log(" cu = %f     flag=%f, part=%d",cubeRotation[0],flag,part);
-
-    gl.uniform1i(programInfo.uniformLocations.uSampler, t[0]);
-
-    {
-      const vertexCount = 36;
-      const type = gl.UNSIGNED_SHORT;
-      const offset = 0;
-      gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
-    }
-
-}// end scene1
-
-
+//--------------------------------------------------------------------------------------------------------
+//                              BACKGROUND IMAGE
+//--------------------------------------------------------------------------------------------------------
 
 
 function background(gl, programInfo, buffers, texture,trans) {
@@ -531,13 +250,6 @@ function background(gl, programInfo, buffers, texture,trans) {
   // Clear the canvas before we start drawing on it.
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-  // Create a perspective matrix, a special matrix that is
-  // used to simulate the distortion of perspective in a camera.
-  // Our field of view is 45 degrees, with a width/height
-  // ratio that matches the display size of the canvas
-  // and we only want to see objects between 0.1 units
-  // and 100 units away from the camera.
 
   const fieldOfView = 45 * Math.PI / 180;   // in radians
   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
@@ -559,18 +271,9 @@ function background(gl, programInfo, buffers, texture,trans) {
 
   // Now move the drawing position a bit to where we want to
   // start drawing the square.
-
   mat4.translate(modelViewMatrix,     // destination matrix
                  modelViewMatrix,     // matrix to translate
                  [trans[0],trans[1],trans[2]]);  // amount to translate
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0],     // amount to rotate in radians
-  //             [0, 0, 1]);       // axis to rotate around (Z)
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0] * .7,// amount to rotate in radians
-  //             [0, 1, 0]);       // axis to rotate around (X)
 
 
   mat4.lookAt(modelViewMatrix,[0,0,25],[0,0,0],[0,1,0]);
@@ -682,23 +385,12 @@ function background(gl, programInfo, buffers, texture,trans) {
 
 
 
+//--------------------------------------------------------------------------------------------------------
+//                              Draw the cube scenes
+//--------------------------------------------------------------------------------------------------------
 
-function end(gl, programInfo, buffers, texture,trans) {
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
-  gl.clearDepth(1.0);                 // Clear everything
-  gl.enable(gl.DEPTH_TEST);           // Enable depth testing
-  gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
-
-  // Clear the canvas before we start drawing on it.
-
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-  // Create a perspective matrix, a special matrix that is
-  // used to simulate the distortion of perspective in a camera.
-  // Our field of view is 45 degrees, with a width/height
-  // ratio that matches the display size of the canvas
-  // and we only want to see objects between 0.1 units
-  // and 100 units away from the camera.
+function cube1(gl, programInfo, buffers, texture,video)
+{
 
   const fieldOfView = 45 * Math.PI / 180;   // in radians
   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
@@ -714,31 +406,24 @@ function end(gl, programInfo, buffers, texture,trans) {
                    zNear,
                    zFar);
 
-  // Set the drawing position to the "identity" point, which is
-  // the center of the scene.
   const modelViewMatrix = mat4.create();
-
-  // Now move the drawing position a bit to where we want to
-  // start drawing the square.
 
   mat4.translate(modelViewMatrix,     // destination matrix
                  modelViewMatrix,     // matrix to translate
-                 [trans[0],trans[1],trans[2]]);  // amount to translate
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0],     // amount to rotate in radians
-  //             [0, 0, 1]);       // axis to rotate around (Z)
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0] * .7,// amount to rotate in radians
-  //             [0, 1, 0]);       // axis to rotate around (X)
+                 [-0.0, 0.0, -10.0]);  // amount to translate
 
+  mat4.lookAt(modelViewMatrix,look_at[0],[0,0,0],[0,1,0]);
 
-  mat4.lookAt(modelViewMatrix,[0,0,30],[0,0,0],[0,1,0]);
+  mat4.rotate(modelViewMatrix,  // destination matrix
+              modelViewMatrix,  // matrix to rotate
+              cubeRotation[0],// amount to rotate in radians
+              [1, 0, 0]);       // axis to rotate around (X)
+
+  mat4.scale(modelViewMatrix, modelViewMatrix,[ cubeScale_x,cubeScale_y,cubeScale_z]);
   const normalMatrix = mat4.create();
   mat4.invert(normalMatrix, modelViewMatrix);
   mat4.transpose(normalMatrix, normalMatrix);
-  mat4.scale(modelViewMatrix, modelViewMatrix,[0.8,1,1]);
+
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute
   {
@@ -801,13 +486,9 @@ function end(gl, programInfo, buffers, texture,trans) {
 
   // Tell WebGL which indices to use to index the vertices
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
-
   // Tell WebGL to use our program when drawing
-
   gl.useProgram(programInfo.program);
-
-  // Set the shader uniforms
-
+    // Set the shader uniforms
   gl.uniformMatrix4fv(
       programInfo.uniformLocations.projectionMatrix,
       false,
@@ -821,42 +502,167 @@ function end(gl, programInfo, buffers, texture,trans) {
       false,
       normalMatrix);
 
-  // Specify the texture to map onto the faces.
 
-  // Tell WebGL we want to affect texture unit 0
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, texture[0]);
+
   gl.activeTexture(gl.TEXTURE1);
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.uniform1i(programInfo.uniformLocations.uSampler, 1);
+  gl.bindTexture(gl.TEXTURE_2D, texture[1]);
 
-  {
-    const vertexCount = 6;
-    const type = gl.UNSIGNED_SHORT;
-    const offset = 0;
-    gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
-  }
 
-  // Update the rotation for the next draw
 
+t[0]=1;
+
+if(video[0].ended && part==0)
+{
+  t[0]=1;
+  part=1;
 }
 
 
+ if(video[9].ended && part ==18)
+   {
+     t[0]=1;
+     part=19;
+   }
+
+
+
+ if( part==0)
+ {
+   console.log(disp_look_at[0]);
+   console.log(compare(look_at[0],disp_look_at[0],zoomSpeed));
+   if(compare(look_at[0],disp_look_at[0],zoomSpeed))
+   {
+     console.log("hi");
+     if(flag==0)
+     {
+       cubeScale_x+=0.1;
+       if(cubeScale_x>=1.7)
+       flag=1;
+     }
+     else
+     {
+       t[0]=0;
+       video[0].play();
+     }
+   }
+   else
+   look_at[0]=update_coordinates(disp_look_at[0],look_at[0],zoomSpeed);
+ }
+
+
+
+
+   else if(part==1)
+   {
+      if(cubeScale_x<=1.0)
+      {
+        if(compare(look_at[0],per_look_at[0],zoomSpeed))
+        {
+          flag=0;
+          cubeScale_x=1;
+
+          part=2;
+        }
+
+        else
+          look_at[0]=update_coordinates(per_look_at[0],look_at[0],zoomSpeed);
+      }
+      else
+      {
+        cubeScale_x-=0.1;
+      }
+
+   }
+
+
+
+
+    else if(part==18)
+    {
+      console.log("ifeskkmnsdokde part 6");
+      if(cubeRotation[0]>=Math.PI/2)
+      {
+
+        console.log("done rotation");
+        if(compare(look_at[0],disp_look_at[0],zoomSpeed))
+        {
+          if(flag==0)
+          {
+            cubeScale_x+=0.1;
+            if(cubeScale_x>=1.7)
+             flag=1;
+          }
+          else
+          {
+            t[0]=0;
+            video[9].play();
+          }
+        }
+        else
+        look_at[0]=update_coordinates(disp_look_at[0],look_at[0],zoomSpeed);
+      }
+      else cubeRotation[0]+=0.07;
+    }
+
+
+
+   else if(part==19)
+   {
+     console.log("inside 7")
+      if(cubeScale_x<=1.0)
+      {
+        if(compare(look_at[0],per_look_at[0],zoomSpeed))
+        {
+          // t[0]=1;
+          part=20;
+          // scene=2;
+          cubeScale_x=1;
+          cubeScale_y=1;
+          cubeScale_z=1;
+          flag=40;
+        }
+
+        else
+          look_at[0]=update_coordinates(per_look_at[0],look_at[0],zoomSpeed);
+      }
+      else
+      {
+        cubeScale_x-=0.1;
+      }
+
+   }
+
+   else if (part==20)
+   {
+     flag--;
+     if(flag<-10)
+      scene=2;
+
+   }
+
+
+
+  console.log(look_at[0]);
+  console.log(" cu = %f     flag=%f, part=%d",cubeRotation[0],flag,part);
+
+    gl.uniform1i(programInfo.uniformLocations.uSampler, t[0]);
+
+    {
+      const vertexCount = 36;
+      const type = gl.UNSIGNED_SHORT;
+      const offset = 0;
+      gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
+    }
+
+}// end cube1
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-function scene2(gl, programInfo, buffers, texture,video)
+function cube2(gl, programInfo, buffers, texture,video)
 {
 
     const fieldOfView = 45 * Math.PI / 180;   // in radians
@@ -974,16 +780,15 @@ function scene2(gl, programInfo, buffers, texture,video)
 
 
 
-
     gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture[0]);
+    gl.bindTexture(gl.TEXTURE_2D, texture[0]); // video
 
     gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, texture[1]);
+    gl.bindTexture(gl.TEXTURE_2D, texture[1]); //image
 
 
 
-  t[1]=1;
+  t[1]=1; // image
 
   if(video[1].ended && part==2)
   {
@@ -1004,12 +809,10 @@ function scene2(gl, programInfo, buffers, texture,video)
    if( part==2)
    {
 
-     // look_at[1] =disp_look_at[1];
      xtranslation=3;
      ytranslation=0;
      ztranslation=10.0;
-     // origin[1]=origin[0];
-     // cubeScale_x =2;
+
 
      console.log("cubescale:  %f,%f,%f",cubeScale_x,cubeScale_y,cubeScale_z);
 
@@ -1036,8 +839,6 @@ function scene2(gl, programInfo, buffers, texture,video)
    }
 
 
-
-
      else if(part==3)
      {
         if(cubeScale_x<=1.0)
@@ -1049,7 +850,6 @@ function scene2(gl, programInfo, buffers, texture,video)
             ytranslation=0.0;
             ztranslation=0.0;
             part=4;
-            // origin[1]=per_origin[1];
           }
           else
           {
@@ -1064,8 +864,6 @@ function scene2(gl, programInfo, buffers, texture,video)
         }
 
      }
-
-
 
 
       else if(part==10)
@@ -1102,26 +900,18 @@ function scene2(gl, programInfo, buffers, texture,video)
         else cubeRotation[1]+=0.07;
       }
 
-
-
-
-
      else if(part==11)
      {
        console.log("inside 11")
         if(cubeScale_z<=1.0)
         {
-          // origin[1]=per_origin[1];
           if(compare(look_at[1],per_look_at[1],zoomSpeed) && compare(origin[1],per_origin[1],originSpeed))
           {
-            // t[1]=1;
             cubeScale_x=1;
             cubeScale_y=1;
             cubeScale_z=1;
             flag=0;
             part=12;
-            // cubeRotation[1]=0;
-
           }
 
           else
@@ -1151,30 +941,10 @@ function scene2(gl, programInfo, buffers, texture,video)
         gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
       }
 
-  }// end scene1
+  }// end cube2
 
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-function scene3(gl, programInfo, buffers, texture,video)
+function cube3(gl, programInfo, buffers, texture,video)
 {
   const fieldOfView = 45 * Math.PI / 180;   // in radians
   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
@@ -1196,9 +966,6 @@ function scene3(gl, programInfo, buffers, texture,video)
                  modelViewMatrix,     // matrix to translate
                  [3.0+xtranslation, 0.0+ytranslation, -10.0+ztranslation]);  // amount to translate
 
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0],     // amount to rotate in radians
   mat4.lookAt(modelViewMatrix,look_at[2],origin[2],[0,1,0]);
   //             [0, 0, 1]);       // axis to rotate around (Z)
   mat4.rotate(modelViewMatrix,  // destination matrix
@@ -1316,8 +1083,6 @@ function scene3(gl, programInfo, buffers, texture,video)
      part=17;
    }
 
-
-
   if( part==4)
   {
 
@@ -1351,7 +1116,6 @@ function scene3(gl, programInfo, buffers, texture,video)
 
 
   }
-
 
 
 
@@ -1421,9 +1185,6 @@ function scene3(gl, programInfo, buffers, texture,video)
     }
 
 
-
-
-
    else if(part==17)
    {
      console.log("part 17");
@@ -1452,8 +1213,6 @@ function scene3(gl, programInfo, buffers, texture,video)
 
    }
 
-
-
   console.log(look_at[2]);
   console.log(" cu = %f     flag=%f, part=%d",cubeRotation[0],flag,part);
 
@@ -1466,18 +1225,11 @@ function scene3(gl, programInfo, buffers, texture,video)
       gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
 
-  }// end scene3
-
-//
-//
-//
-//
-//
-//
-//
+  }// end cube 3
 
 
-function scene4(gl, programInfo, buffers, texture,video)
+
+function cube4(gl, programInfo, buffers, texture,video)
 {
   const fieldOfView = 45 * Math.PI / 180;   // in radians
   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
@@ -1499,9 +1251,6 @@ function scene4(gl, programInfo, buffers, texture,video)
                  modelViewMatrix,     // matrix to translate
                  [-5.0+xtranslation, 0.0+ytranslation, -30.0+ztranslation]);  // amount to translate
 
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0],     // amount to rotate in radians
   mat4.lookAt(modelViewMatrix,look_at[3],origin[3],[0,1,0]);
   //             [0, 0, 1]);       // axis to rotate around (Z)
   mat4.rotate(modelViewMatrix,  // destination matrix
@@ -1594,7 +1343,6 @@ function scene4(gl, programInfo, buffers, texture,video)
 
 
 
-
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, texture[0]);
 
@@ -1619,17 +1367,13 @@ function scene4(gl, programInfo, buffers, texture,video)
      part=15;
    }
 
-
-
   if( part==6)
   {
 
-   // look_at[3] =disp_look_at[3];
    xtranslation=5;
    ytranslation=0;
    ztranslation=20;
-   // origin[3]=origin[0];
-   // cubeScale_x =1.7;
+
 
 
    if(compare(look_at[3],disp_look_at[3],zoomSpeed)&& compare(origin[3],origin[0],originSpeed))
@@ -1655,8 +1399,6 @@ function scene4(gl, programInfo, buffers, texture,video)
   }
 
 
-
-
    else if(part==7)
    {
       if(cubeScale_x<=1.0)
@@ -1666,7 +1408,6 @@ function scene4(gl, programInfo, buffers, texture,video)
         ztranslation=0.0;
         if(compare(look_at[3],per_look_at[3],zoomSpeed) && compare(origin[3],per_origin[3],originSpeed))
         {
-          // origin[3]=per_origin[3];
           flag=0;
           part=8;
         }
@@ -1684,9 +1425,6 @@ function scene4(gl, programInfo, buffers, texture,video)
 
    }
 
-
-
-
     else if(part==14)
     {
       xtranslation=5;
@@ -1695,8 +1433,6 @@ function scene4(gl, programInfo, buffers, texture,video)
       console.log("ifeskkmnsdokde part 14");
       if(cubeRotation[3]>=Math.PI/2)
       {
-        // origin[3]=origin[0];
-
         console.log("done rotation");
         if(compare(look_at[3],disp_look_at[3],zoomSpeed)&& compare(origin[3],origin[0],originSpeed))
         {
@@ -1724,8 +1460,6 @@ function scene4(gl, programInfo, buffers, texture,video)
 
 
 
-
-
    else if(part==15)
    {
      console.log("part 15");
@@ -1734,7 +1468,6 @@ function scene4(gl, programInfo, buffers, texture,video)
        xtranslation=0.0;
        ytranslation=0.0;
        ztranslation=0.0;
-       // origin[3]=per_origin[3];
        if(compare(look_at[3],per_look_at[3],zoomSpeed) && compare(origin[3],per_origin[3],originSpeed))
        {
          flag=0;
@@ -1769,12 +1502,12 @@ function scene4(gl, programInfo, buffers, texture,video)
       gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
 
-  }// end scene4
+  }// end cube4
 
 
 
 
-function scene5(gl, programInfo, buffers, texture,video)
+function cube5(gl, programInfo, buffers, texture,video)
 {
   const fieldOfView = 45 * Math.PI / 180;   // in radians
   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
@@ -1796,9 +1529,6 @@ function scene5(gl, programInfo, buffers, texture,video)
                  modelViewMatrix,     // matrix to translate
                  [5.0+xtranslation, 0.0+ytranslation, -30.0+ztranslation]);  // amount to translate
 
-  // mat4.rotate(modelViewMatrix,  // destination matrix
-  //             modelViewMatrix,  // matrix to rotate
-  //             cubeRotation[0],     // amount to rotate in radians
   mat4.lookAt(modelViewMatrix,look_at[4],origin[4],[0,1,0]);
   //             [0, 0, 1]);       // axis to rotate around (Z)
   mat4.rotate(modelViewMatrix,  // destination matrix
@@ -1921,13 +1651,9 @@ function scene5(gl, programInfo, buffers, texture,video)
   if( part==8)
   {
 
-   //look_at[4] =disp_look_at[4];
    xtranslation=-5;
    ytranslation=0;
    ztranslation=20;
-   // origin[4]=origin[0];
-   //cubeScale_x =1.7;
-
 
    if(compare(look_at[4],disp_look_at[4],zoomSpeed) && compare(origin[4],origin[0],originSpeed))
    {
@@ -1951,10 +1677,7 @@ function scene5(gl, programInfo, buffers, texture,video)
 
 }
 
-
-
-
-   else if(part==9)
+ else if(part==9)
    {
       if(cubeScale_x<=1.0)
       {
@@ -2064,11 +1787,173 @@ function scene5(gl, programInfo, buffers, texture,video)
       gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
 
-  }// end scene4
+  }// end cube5
 
 
 
 
+  //------------------------------------------------------------------------------------------------------
+  //                                END OF CUBE SCENES
+  //------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+  //--------------------------------------------------------------------------------------------------------
+  //                              LAST THANK YOU SCENE
+  //--------------------------------------------------------------------------------------------------------
+
+
+  function end(gl, programInfo, buffers, texture,trans) {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+    gl.clearDepth(1.0);                 // Clear everything
+    gl.enable(gl.DEPTH_TEST);           // Enable depth testing
+    gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
+
+    // Clear the canvas before we start drawing on it.
+
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    const fieldOfView = 45 * Math.PI / 180;   // in radians
+    const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+    const zNear = 0.1;
+    const zFar = 100.0;
+    const projectionMatrix = mat4.create();
+
+    // note: glmatrix.js always has the first argument
+    // as the destination to receive the result.
+    mat4.perspective(projectionMatrix,
+                     fieldOfView,
+                     aspect,
+                     zNear,
+                     zFar);
+
+    // Set the drawing position to the "identity" point, which is
+    // the center of the scene.
+    const modelViewMatrix = mat4.create();
+
+    // Now move the drawing position a bit to where we want to
+    // start drawing the square.
+
+    mat4.translate(modelViewMatrix,     // destination matrix
+                   modelViewMatrix,     // matrix to translate
+                   [trans[0],trans[1],trans[2]]);  // amount to translate
+
+    mat4.lookAt(modelViewMatrix,[0,0,30],[0,0,0],[0,1,0]);
+    const normalMatrix = mat4.create();
+    mat4.invert(normalMatrix, modelViewMatrix);
+    mat4.transpose(normalMatrix, normalMatrix);
+    mat4.scale(modelViewMatrix, modelViewMatrix,[0.8,1,1]);
+    // Tell WebGL how to pull out the positions from the position
+    // buffer into the vertexPosition attribute
+    {
+      const numComponents = 3;
+      const type = gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+      gl.vertexAttribPointer(
+          programInfo.attribLocations.vertexPosition,
+          numComponents,
+          type,
+          normalize,
+          stride,
+          offset);
+      gl.enableVertexAttribArray(
+          programInfo.attribLocations.vertexPosition);
+    }
+
+    // Tell WebGL how to pull out the texture coordinates from
+    // the texture coordinate buffer into the textureCoord attribute.
+    {
+      const numComponents = 2;
+      const type = gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
+      gl.vertexAttribPointer(
+          programInfo.attribLocations.textureCoord,
+          numComponents,
+          type,
+          normalize,
+          stride,
+          offset);
+      gl.enableVertexAttribArray(
+          programInfo.attribLocations.textureCoord);
+    }
+
+    // Tell WebGL how to pull out the normals from
+    // the normal buffer into the vertexNormal attribute.
+    {
+      const numComponents = 3;
+      const type = gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffers.normal);
+      gl.vertexAttribPointer(
+          programInfo.attribLocations.vertexNormal,
+          numComponents,
+          type,
+          normalize,
+          stride,
+          offset);
+      gl.enableVertexAttribArray(
+          programInfo.attribLocations.vertexNormal);
+    }
+
+    // Tell WebGL which indices to use to index the vertices
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
+
+    // Tell WebGL to use our program when drawing
+
+    gl.useProgram(programInfo.program);
+
+    // Set the shader uniforms
+
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.projectionMatrix,
+        false,
+        projectionMatrix);
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.modelViewMatrix,
+        false,
+        modelViewMatrix);
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.normalMatrix,
+        false,
+        normalMatrix);
+
+    // Specify the texture to map onto the faces.
+
+    // Tell WebGL we want to affect texture unit 0
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.uniform1i(programInfo.uniformLocations.uSampler, 1);
+
+    {
+      const vertexCount = 6;
+      const type = gl.UNSIGNED_SHORT;
+      const offset = 0;
+      gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
+    }
+
+
+  }
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+//   This function tries to converge point l to p by given speed
+//  and returns the modified coordinates
+//------------------------------------------------------------------------------------------------------
 
 
   function update_coordinates(p,l,speed)
@@ -2104,6 +1989,11 @@ function scene5(gl, programInfo, buffers, texture,video)
 
   }
 
+
+  //------------------------------------------------------------------------------------------------------
+  //   Below function compares two 3d coordinates and returns true if they
+  //       are in the specified range
+  //------------------------------------------------------------------------------------------------------
 
   function compare(a,b,speed)
   {
