@@ -33,8 +33,8 @@ look_at[2] =[3 ,2,-12];
 look_at[3] =[-5,2,-14];
 look_at[4] =[5 ,2,-14];
 
-const zoomSpeed =0.4;  // speed with which translation (actually change in lookAt ) will happen
-const originSpeed=0.2; // speed with which origin will be changed
+const zoomSpeed =0.3;  // speed with which translation (actually change in lookAt ) will happen
+const originSpeed=0.15; // speed with which origin will be changed
 
 var part=0;  // part to be executed (cube animation)
 var scene=0; // the scene to be displayed
