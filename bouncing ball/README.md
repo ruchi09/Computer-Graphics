@@ -96,11 +96,11 @@ Below lines were modified:
         }
 
 //***************************************************************************************************************************
-```javascript
+```
 
    3) function drawScene(gl, programInfo, buffers, texture, deltaTime)
    
-       
+```javascript   
         a) line 274:
     
         mat4.translate(modelViewMatrix,     // destination matrix
