@@ -24,7 +24,7 @@ Below lines were modified:
 //**************************************************************************************************************************
         
 2)  line 107:
-        
+```javascript        
           function initBuffers(gl) {
 
           // Create a buffer for the cube's vertex positions.
@@ -96,9 +96,11 @@ Below lines were modified:
         }
 
 //***************************************************************************************************************************
+```javascript
 
-    3) function drawScene(gl, programInfo, buffers, texture, deltaTime)
-        
+   3) function drawScene(gl, programInfo, buffers, texture, deltaTime)
+   
+       
         a) line 274:
     
         mat4.translate(modelViewMatrix,     // destination matrix
@@ -131,4 +133,4 @@ Below lines were modified:
               flag=1;
 
 
-
+```
