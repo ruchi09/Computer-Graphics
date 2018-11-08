@@ -14,7 +14,10 @@ Note:
 The lines below are modified:
 
 
+
+
 1) line no: 70
+
 ```javascript
         const texture = new Array(3);
         texture[0] = loadTexture(gl, 'back.jpg');
@@ -42,7 +45,13 @@ The lines below are modified:
 
 ```
 
+
+
+
+
 2)   line no: 98
+
+
 ```javascript
            function initBuffers(gl)    // changed/added the vertex coordinates to the required ones
                                         // added indices
@@ -50,7 +59,14 @@ The lines below are modified:
     
 ```
 
+
+
+
+
+
 3) Line no: 333
+
+
 ```javascript
     function drawScene(gl, programInfo, buffers, texture)
     
