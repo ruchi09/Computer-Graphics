@@ -14,8 +14,10 @@ Below lines were modified:
 //****************************************************************************************************************************
 
 1) line 80
+        ```javascript
         const texture = new Array(1);
-        texture[0] = loadTexture(gl, 'ball2.jpg');
+        texture[0] = loadTexture(gl, 'ball2.jpg')
+        ```
  
  
  
