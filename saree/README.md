@@ -1,17 +1,21 @@
 
-Reference:
+##Reference:##
 1. [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL)
 2. [Code](https://github.com/mdn/webgl-examples/blob/gh-pages/tutorial/sample7/webgl-demo.js)
 
 
 
-Note:
+##Note:##
 - The changes can be found by searching for 'Ruchi Saha' in the js code.      
 - This code took reference from rotating cube and removed that cube for a blank canvas     
 - The code contains total 9 rectangles (1 for background, 4 for bottom borders, 2 side borders and 2 top borders)    
       
 
-The lines below are modified:
+
+
+##The lines below are modified:##
+
+
 
 
 
