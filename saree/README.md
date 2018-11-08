@@ -13,9 +13,9 @@ Note:
 
 The lines below are modified:
 
-//***************************************************************************************************************************
-1) line no: 70
 
+1) line no: 70
+```javascript
         const texture = new Array(3);
         texture[0] = loadTexture(gl, 'back.jpg');
         texture[1] = loadTexture(gl, 'border2.png');
@@ -40,26 +40,24 @@ The lines below are modified:
 
 
 
-//***************************************************************************************************************************
+```
 
 2)   line no: 98
-
+```javascript
            function initBuffers(gl)    // changed/added the vertex coordinates to the required ones
                                         // added indices
                                         // added and changed texture coordinates
     
-    
-//**************************************************************************************************************************
-
+```
 
 3) Line no: 333
-
+```javascript
     function drawScene(gl, programInfo, buffers, texture)
     
             a) removed the rotation code
             b) applying textures
 
-                //--------------------- MODIFIED BY (by Ruchi Saha ,CED15I023) ------------------------------------------------------
+                //--------------------- MODIFIED BY (by Ruchi Saha ,CED15I023) -----------------------------------------------
 
               // Tell WebGL we want to affect texture unit 0
 
@@ -164,5 +162,4 @@ The lines below are modified:
 
 
             //------------------- end of modifications-----------------------------------------------------------------
-
-//****************************************************************************************************************************
+```
