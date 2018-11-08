@@ -10,9 +10,9 @@ Note:
 
 Following lines were modified:
 
-//***************************************************************************************************************************
 
 1) line 73:
+```javascript
         const texture = new Array(6);
         texture[0] = loadTexture(gl, 'dot.png');
         texture[1] = loadTexture(gl, 'dot1.png');
@@ -20,9 +20,11 @@ Following lines were modified:
         texture[3] = loadTexture(gl, 'dot3.png');
         texture[4] = loadTexture(gl, 'dot4.png');
         texture[5] = loadTexture(gl, 'dot5.png');
+```
         
 2) line 398:
         
+ ```javascript
         //////////////// Applying textures//
         //--------------------------- Modified by RUCHI SAHA (CED15I023)---------------------------------------------------
 
@@ -93,3 +95,4 @@ Following lines were modified:
           }
         //-------------------------------------- End of modifications by Ruchi Saha---------------------------------------
 
+```
