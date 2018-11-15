@@ -17,6 +17,7 @@ This is a webgl code for a 3 minute animation using basic techniques.
     * Applying Image Texture       
     * Changing LookAt  
     * Changing Origin
+    * Switching dynamically between Textures
       
 
 
